@@ -1,0 +1,40 @@
+---
+layout: runbook
+title: '#4471 · two problems behind one ticket'
+owner: dcesiel
+status: known
+reviewed: 2026-11-17
+signature: 'v1.eyJzdWIiOiI2NTQ3IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTQ4Nzg5MjQsImV4cCI6MTc5NDk2NTMyNH0.4aDY6GDDiFE_Hq-O6sOutcLZuSyJp3yFhM-ZXnS5yTo'
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  const signature = 'v1.eyJzdWIiOiI2NTQ3IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTQ4Nzg5MjQsImV4cCI6MTc5NDk2NTMyNH0.4aDY6GDDiFE_Hq-O6sOutcLZuSyJp3yFhM-ZXnS5yTo';
+</script>
+
+The desk merged **412 reports** into #4471 as one date bug. The table below, which the kb
+computes from the reports and the tenant directory, shows two causes.
+
+<CauseTable ticket={4471} />
+
+## What each cause is
+
+- **parser (379 reports):** the shared parser reads dates month first. Tenants that write the
+  day first get flipped dates. This is the bug #4471 describes. 5 of these read as a one-day
+  move; the desk files them under parser by tenant.
+- **hint (33 reports):** all via the booking form of tenants on booking-v3 (alder.physio,
+  copper.studio, pale.harbour). The form prints MM/DD/YYYY under the date field, so people type
+  month first and the form reads it day first. A parser fix does not change this.
+
+<Callout>
+Not one issue. A parser fix closes 379 reports. The other 33 need the booking-v3 hint changed.
+</Callout>
+
+## Why intake tags mislead
+
+Intake guesses from the browser locale. It tagged 15 of the 33 hint reports as parser.
+Cause depends on the tenant and its form, so count from `causeOf` in `causes.ts`, not from tags.
+
+<RenderStamp {signature} />
