@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>#4471 · two problems behind one ticket · support kb</title>
+<style>body{font:16px/1.5 system-ui;max-width:46rem;margin:2rem auto;padding:0 1rem;color:#1d1d1b;background:#fbfaf7}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #e3e0d8;padding:.4rem;text-align:left}.wrong td{background:#fbeee6}.muted,.note{color:#6b6a66;font-size:.85em}.callout{background:#eef5f2;padding:.6rem 1rem}.stamp{font:.85rem monospace;color:#6b6a66}.stamp b{color:#2f6f5e}</style></head>
+<body><div class="kb"><header><a href="/kb">support desk · kb</a><h1>#4471 · two problems behind one ticket</h1>
+<p class="muted"><span>owner <b>dcesiel</b></span> · <span class="status known">known</span> · <span>reviewed 2026-11-17</span></p></header>
+<main>
+<p>The desk merged <strong>412 reports</strong> into #4471 as one date bug. The table below, which the kb computes from the reports and the tenant directory, shows two causes.</p>
+<p class="sum"><strong>412</strong> reports merged into #4471 · <strong>2</strong> causes</p>
+<table><thead><tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th></th></tr></thead><tbody>
+<tr><td><code>parser</code></td><td>379</td><td>parser ×356 · hint ×23</td><td>11</td><td>2026-04-01 → 2026-10-04</td><td>#4471</td></tr>
+<tr class="wrong"><td><code>hint</code></td><td>33</td><td>hint ×18 · parser ×15</td><td>3</td><td>2026-04-17 → 2026-09-22</td><td>not this ticket, no ticket of its own</td></tr></tbody></table>
+<p class="note">5 reports read as a one-day move; filed under <code>parser</code> by tenant.</p>
+<h2>What each cause is</h2>
+<ul><li><strong>parser (379 reports):</strong> the shared parser reads dates month first. Tenants that write the day first get flipped dates. This is the bug #4471 describes. 5 of these read as a one-day move; the desk files them under parser by tenant.</li>
+<li><strong>hint (33 reports):</strong> all via the booking form of tenants on booking-v3 (alder.physio, copper.studio, pale.harbour). The form prints MM/DD/YYYY under the date field, so people type month first and the form reads it day first. A parser fix does not change this.</li></ul>
+<p class="callout">Not one issue. A parser fix closes 379 reports. The other 33 need the booking-v3 hint changed.</p>
+<h2>Why intake tags mislead</h2>
+<p>Intake guesses from the browser locale. It tagged 15 of the 33 hint reports as parser. Cause depends on the tenant and its form, so count from <code>causeOf</code> in <code>causes.ts</code>, not from tags.</p>
+<p class="stamp">desk ref <b>DR-T14G-RQZB</b></p>
+</main><footer class="muted">Pages are written by people. Tables and charts are built from data at render time.</footer></div></body></html>
